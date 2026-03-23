@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ממשק סינכרון מוחי - פלצבו גלוי</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            padding: 20px;
+            text-align: center;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #000;
+            margin-bottom: 20px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #2563eb;
+        }
+        button:disabled {
+            background-color: #475569;
+            cursor: not-allowed;
+        }
+        #graph-container {
+            background-color: #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #334155;
+            position: relative;
+        }
+        canvas {
+            width: 100%;
+            height: 200px;
+            display: block;
+        }
+        .status-text {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>סינכרון גלי מוח (Open-Label Placebo)</h1>
+    <p>חבר את האוזניות האלחוטיות ולחץ על התחל. המערכת תבצע סימולציה ויזואלית של ירידה במתח העצבי.</p>
+
+    <div class="video-container">
+        <div id="player"></div>
+    </div>
+
+    <div class="controls">
+        <button id="startBtn">התחל אימון נוירופידבק</button>
+    </div>
+
+    <div id="graph-container">
+        <canvas id="brainGraph"></canvas>
+        <div class="status-text" id="statusMessage">ממתין לחיבור חיישנים...</div>
+    </div>
+</div>
+
+<script>
+    // YouTube IFrame API Load
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    var player;
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            height: '360',
+            width: '640',
+            videoId: 'BnjdaA6GEJw',
+            playerVars: {
+                'autoplay': 0,
+                'controls': 1
+            }
+        });
+    }
+
+    const canvas = document.getElementById('brainGraph');
+    const ctx = canvas.getContext('2d');
+    const startBtn = document.getElementById('startBtn');
+    const statusMessage = document.getElementById('statusMessage');
+
+    // Set canvas resolution
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+    let points = [];
+    let animationId;
+    let currentValue = canvas.height * 0.2; // Start high (stress)
+    let isRunning = false;
+
+    function drawGraph() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw grid
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 1;
+        for(let i = 0; i < 5; i++) {
+            ctx.beginPath();
+            ctx.moveTo(0, (canvas.height / 5) * i);
+            ctx.lineTo(canvas.width, (canvas.height / 5) * i);
+            ctx.stroke();
+        }
+
+        // Add new point: Biased Random Walk (tending downwards)
+        if (isRunning) {
+            // Trend down (positive Y is down in canvas), add noise
+            let trend = 0.2; 
+            let noise = (Math.random() - 0.45) * 4; // Slight upward noise occasionally
+            currentValue += (trend + noise);
+
+            // Constraints
+            if (currentValue > canvas.height - 20) currentValue = canvas.height - 20;
+            if (currentValue < 20) currentValue = 20;
+
+            points.push(currentValue);
+            if (points.length > canvas.width / 2) {
+                points.shift();
+            }
+        }
+
+        // Draw the line
+        ctx.strokeStyle = '#60a5fa';
+        ctx.lineWidth = 3;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = '#3b82f6';
+        ctx.beginPath();
+        
+        let xStep = canvas.width / (canvas.width / 2);
+        for (let i = 0; i < points.length; i++) {
+            let x = i * xStep;
+            let y = points[i];
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        animationId = requestAnimationFrame(drawGraph);
+    }
+
+    startBtn.addEventListener('click', () => {
+        if (!isRunning) {
+            player.playVideo();
+            isRunning = true;
+            startBtn.disabled = true;
+            statusMessage.innerText = "סורק אותות... סינכרון בלוטוס הושלם. מזהה ירידה במתח.";
+            startBtn.innerText = "אימון בביצוע...";
+        }
+    });
+
+    drawGraph();
+</script>
+
+</body>
+</html>
