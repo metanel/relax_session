@@ -2,195 +2,189 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ממשק סינכרון מוחי - פלצבו גלוי</title>
+    <title>NEURO-SYNC V4.0 | MEDICAL INTERFACE</title>
     <style>
+        :root {
+            --bg-color: #05070a;
+            --panel-color: #0c111a;
+            --accent-color: #00ffcc; /* ירוק-כחול רפואי */
+            --text-color: #94a3b8;
+        }
         body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
+            height: 100vh;
+        }
+        .header {
+            border-bottom: 2px solid #1e293b;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            min-height: 100vh;
+            background: var(--panel-color);
         }
-        .container {
-            width: 90%;
-            max-width: 800px;
+        .main-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            flex-grow: 1;
+            gap: 2px;
+            background: #1e293b;
+        }
+        .sidebar {
+            background: var(--panel-color);
             padding: 20px;
-            text-align: center;
+            font-size: 12px;
         }
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
-            background: #000;
-            margin-bottom: 20px;
+        .content {
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
         }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .video-box {
             width: 100%;
-            height: 100%;
-        }
-        .controls {
-            margin: 20px 0;
-        }
-        button {
-            background-color: #3b82f6;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background-color: #2563eb;
-        }
-        button:disabled {
-            background-color: #475569;
-            cursor: not-allowed;
-        }
-        #graph-container {
-            background-color: #1e293b;
-            border-radius: 12px;
-            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto 10px;
             border: 1px solid #334155;
+            aspect-ratio: 16/9;
+        }
+        .graph-area {
+            flex-grow: 1;
+            background: #000;
+            border: 1px solid #1e293b;
             position: relative;
+            overflow: hidden;
         }
-        canvas {
-            width: 100%;
-            height: 200px;
-            display: block;
+        canvas { width: 100%; height: 100%; }
+        .btn-medical {
+            background: none;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 10px 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
         }
-        .status-text {
-            font-size: 14px;
-            color: #94a3b8;
-            margin-top: 10px;
-        }
+        .btn-medical:hover { background: rgba(0, 255, 204, 0.1); }
+        .stat-line { margin-bottom: 10px; border-bottom: 1px solid #1e293b; padding-bottom: 5px; }
+        .value { color: #fff; float: left; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>סינכרון גלי מוח (Open-Label Placebo)</h1>
-    <p>חבר את האוזניות האלחוטיות ולחץ על התחל. המערכת תבצע סימולציה ויזואלית של ירידה במתח העצבי.</p>
+<div class="header">
+    <div style="color: var(--accent-color); font-weight: bold;">NEURO-SYNC TERMINAL v4.0.2</div>
+    <button class="btn-medical" id="initBtn">INITIALIZE SESSION</button>
+</div>
 
-    <div class="video-container">
-        <div id="player"></div>
+<div class="main-layout">
+    <div class="sidebar">
+        <h3>SYSTEM STATUS</h3>
+        <div class="stat-line">BT LINK: <span class="value" id="btStatus">CONNECTED</span></div>
+        <div class="stat-line">SIGNAL: <span class="value" id="sigStrength">98.4%</span></div>
+        <div class="stat-line">ALPHA: <span class="value" id="val1">--</span></div>
+        <div class="stat-line">BETA: <span class="value" id="val2">--</span></div>
+        <div class="stat-line">STRESS INDEX: <span class="value" id="stressVal">PENDING</span></div>
+        <div style="margin-top: 50px; opacity: 0.5;">
+            NOTICE: Open-Label Placebo Protocol Active. 
+            Brain-wave patterns are simulated for neurological feedback loop training.
+        </div>
     </div>
-
-    <div class="controls">
-        <button id="startBtn">התחל אימון נוירופידבק</button>
-    </div>
-
-    <div id="graph-container">
-        <canvas id="brainGraph"></canvas>
-        <div class="status-text" id="statusMessage">ממתין לחיבור חיישנים...</div>
+    <div class="content">
+        <div class="video-box" id="player"></div>
+        <div class="graph-area">
+            <canvas id="neuroCanvas"></canvas>
+        </div>
     </div>
 </div>
 
 <script>
-    // YouTube IFrame API Load
     var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    document.head.appendChild(tag);
 
-    var player;
+    let player, isRunning = false;
+    const canvas = document.getElementById('neuroCanvas');
+    const ctx = canvas.getContext('2d');
+    
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
-            height: '360',
-            width: '640',
             videoId: 'BnjdaA6GEJw',
-            playerVars: {
-                'autoplay': 0,
-                'controls': 1
-            }
+            playerVars: { 'controls': 0, 'disablekb': 1 }
         });
     }
 
-    const canvas = document.getElementById('brainGraph');
-    const ctx = canvas.getContext('2d');
-    const startBtn = document.getElementById('startBtn');
-    const statusMessage = document.getElementById('statusMessage');
-
-    // Set canvas resolution
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-
     let points = [];
-    let animationId;
-    let currentValue = canvas.height * 0.2; // Start high (stress)
-    let isRunning = false;
+    let currentY = 50; // Starting stress level %
+    let targetY = 10;
+    
+    function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
 
-    function drawGraph() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw grid
-        ctx.strokeStyle = '#334155';
-        ctx.lineWidth = 1;
-        for(let i = 0; i < 5; i++) {
-            ctx.beginPath();
-            ctx.moveTo(0, (canvas.height / 5) * i);
-            ctx.lineTo(canvas.width, (canvas.height / 5) * i);
-            ctx.stroke();
+    function updateStats() {
+        if(!isRunning) return;
+        document.getElementById('val1').innerText = (Math.random() * 5 + 10).toFixed(2) + " Hz";
+        document.getElementById('val2').innerText = (Math.random() * 10 + 15).toFixed(2) + " Hz";
+        document.getElementById('stressVal').innerText = (currentY).toFixed(1) + "%";
+    }
+
+    function animate() {
+        ctx.fillStyle = 'rgba(0,0,0,0.1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw Grid
+        ctx.strokeStyle = '#0a1018';
+        for(let i=0; i<canvas.width; i+=40) {
+            ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,canvas.height); ctx.stroke();
         }
 
-        // Add new point: Biased Random Walk (tending downwards)
-        if (isRunning) {
-            // Trend down (positive Y is down in canvas), add noise
-            let trend = 0.2; 
-            let noise = (Math.random() - 0.45) * 4; // Slight upward noise occasionally
-            currentValue += (trend + noise);
+        if(isRunning) {
+            // Asymptotic descent logic: Slows down as it gets lower
+            let speed = 0.002; 
+            let noise = (Math.random() - 0.5) * 0.4;
+            currentY += (targetY - currentY) * speed + noise;
 
-            // Constraints
-            if (currentValue > canvas.height - 20) currentValue = canvas.height - 20;
-            if (currentValue < 20) currentValue = 20;
-
-            points.push(currentValue);
-            if (points.length > canvas.width / 2) {
-                points.shift();
-            }
+            points.push(currentY);
+            if(points.length > canvas.width / 2) points.shift();
         }
 
-        // Draw the line
-        ctx.strokeStyle = '#60a5fa';
-        ctx.lineWidth = 3;
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = '#3b82f6';
+        // Render line
         ctx.beginPath();
+        ctx.strokeStyle = '#00ffcc';
+        ctx.lineWidth = 2;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = '#00ffcc';
         
         let xStep = canvas.width / (canvas.width / 2);
-        for (let i = 0; i < points.length; i++) {
+        for(let i=0; i<points.length; i++) {
             let x = i * xStep;
-            let y = points[i];
-            if (i === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
+            let y = (points[i] / 100) * canvas.height;
+            if(i===0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
         ctx.stroke();
 
-        animationId = requestAnimationFrame(drawGraph);
+        requestAnimationFrame(animate);
     }
 
-    startBtn.addEventListener('click', () => {
-        if (!isRunning) {
-            player.playVideo();
-            isRunning = true;
-            startBtn.disabled = true;
-            statusMessage.innerText = "סורק אותות... סינכרון בלוטוס הושלם. מזהה ירידה במתח.";
-            startBtn.innerText = "אימון בביצוע...";
-        }
+    document.getElementById('initBtn').addEventListener('click', function() {
+        isRunning = true;
+        player.playVideo();
+        this.innerText = "SESSION ACTIVE";
+        this.disabled = true;
+        setInterval(updateStats, 1000);
     });
 
-    drawGraph();
+    animate();
 </script>
-
 </body>
 </html>
