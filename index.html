@@ -51,19 +51,19 @@
     
     .welcome-container {
       border: 1px solid var(--neon-cyan);
-      background: rgba(10, 14, 23, 0.9);
-      padding: 30px;
-      max-width: 650px;
+      background: rgba(10, 14, 23, 0.95);
+      padding: 35px;
+      max-width: 700px;
       width: 100%;
-      max-height: 90vh;
+      max-height: 95vh;
       overflow-y: auto;
-      box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
-      text-align: right; /* יישור טקסט לימין עבור RTL */
+      box-shadow: 0 0 40px rgba(0, 229, 255, 0.15);
+      text-align: right;
     }
     
     .welcome-title {
       font-family: var(--font-mono);
-      font-size: 28px;
+      font-size: 32px;
       color: var(--neon-cyan);
       margin-bottom: 25px;
       letter-spacing: 1px;
@@ -75,26 +75,51 @@
     .instructions-content {
       color: var(--text-light);
       line-height: 1.6;
-      font-size: 16px;
-      margin-bottom: 30px;
+      font-size: 20px;
+      margin-bottom: 35px;
     }
     
     .instructions-content p {
       margin-top: 0;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
     
     .instructions-content strong {
       color: var(--neon-green);
     }
-    
-    .instructions-content ol {
-      padding-right: 20px;
-      margin-bottom: 0;
+
+    /* עיצוב רשימת תיבות הסימון */
+    .checkbox-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 25px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border: 1px solid #1a2f24;
+      border-radius: 8px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1.4;
+      color: #cbd5e1;
+      transition: color 0.2s;
     }
     
-    .instructions-content li {
-      margin-bottom: 12px;
+    .checkbox-item:hover {
+      color: #fff;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      margin-top: 4px;
+      transform: scale(1.6);
+      cursor: pointer;
+      accent-color: var(--neon-green);
     }
 
     .welcome-action-area {
@@ -103,11 +128,10 @@
       align-items: center;
       gap: 15px;
       border-top: 1px solid var(--text-dim);
-      padding-top: 20px;
+      padding-top: 25px;
     }
 
     /* === עיצוב מסך ניטור (Game Screen) === */
-    /* ה-Top Bar נשאר בדיוק כפי שאהבת */
     .dashboard-top-bar {
       background: var(--panel-bg);
       border-bottom: 1px solid var(--text-dim);
@@ -150,7 +174,7 @@
     
     .video-mini-wrapper {
       width: 120px;
-      height: 68px; /* 16:9 ratio */
+      height: 68px; 
       border: 1px solid var(--text-dim);
       background: #000;
       position: relative;
@@ -164,13 +188,11 @@
       left: 0;
     }
 
-    /* אזור הגרף המשולב */
     .canvas-container {
       flex-grow: 1;
       position: relative;
       width: 100%;
       overflow: hidden;
-      /* הרקע הכהה והעמוק מהקוד שאהבת */
       background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a1a 100%);
     }
     
@@ -180,10 +202,8 @@
       height: 100%;
     }
     
-    /* תווית המתח מהקוד שאהבת, מותאמת ל-RTL */
     .stress-label {
       position: absolute;
-      /* יישור לשמאל ב-RTL כדי לא להסתיר את תחילת הגרף הזורם ימינה */
       left: 25px; 
       top: 50%;
       transform: translateY(-50%);
@@ -196,7 +216,6 @@
       letter-spacing: 1px;
       border: 1px solid rgba(184, 169, 212, 0.2);
       pointer-events: none;
-      /* צבע טקסט סגול בהיר מהקוד שאהבת */
       color: #b8a9d4; 
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
       font-family: var(--font-main);
@@ -221,20 +240,15 @@
       border-color: var(--neon-green);
       color: var(--neon-green);
       background: rgba(0, 255, 102, 0.05);
-      font-size: 18px;
+      font-size: 22px;
+      padding: 15px 30px;
     }
     button.primary-btn:hover {
       background: rgba(0, 255, 102, 0.2);
       box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
     }
-    button:disabled {
-      border-color: var(--text-dim);
-      color: var(--text-dim);
-      cursor: not-allowed;
-      background: transparent;
-    }
 
-    /* חלון מיינדפולנס */
+    /* עיצוב חלונות קופצים (Modals) */
     .modal {
       display: none;
       position: fixed;
@@ -249,14 +263,14 @@
     .modal-content {
       background-color: var(--panel-bg);
       margin: 10vh auto;
-      padding: 25px;
+      padding: 35px;
       border: 1px solid var(--neon-cyan);
       width: 85%;
-      max-width: 500px;
+      max-width: 600px;
       max-height: 80vh;
       overflow-y: auto;
       color: var(--text-light);
-      line-height: 1.5;
+      line-height: 1.6;
       position: relative;
       box-sizing: border-box;
       text-align: right;
@@ -265,23 +279,42 @@
       color: var(--neon-cyan);
       margin-top: 0;
       border-bottom: 1px solid var(--text-dim);
-      padding-bottom: 10px;
-      font-size: 20px;
+      padding-bottom: 15px;
+      font-size: 24px;
       text-align: center;
     }
+    
+    /* הגדלת הפונט בתוכן המודאל */
+    .modal-content p, .modal-content ul {
+      font-size: 18px;
+    }
+    
     .modal-content ul {
-      padding-right: 20px;
-      font-size: 15px;
+      padding-right: 25px;
     }
     .modal-content li {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
+    
+    /* עיצוב מיוחד למודאל השגיאה */
+    #validationModal .modal-content {
+      border-color: #ff4444;
+      max-width: 450px;
+      text-align: center;
+      margin-top: 20vh;
+    }
+    #validationModal h2 {
+      color: #ff4444;
+      border-bottom: none;
+      margin-bottom: 5px;
+    }
+
     .close-btn {
       color: var(--text-dim);
       position: absolute;
       top: 15px;
       left: 20px;
-      font-size: 28px;
+      font-size: 32px;
       font-weight: bold;
       cursor: pointer;
       line-height: 1;
@@ -292,47 +325,20 @@
 
     /* === התאמות למובייל === */
     @media (max-width: 600px) {
-      /* מסך פתיחה במובייל */
-      .welcome-container {
-        padding: 20px;
-      }
-      .welcome-title {
-        font-size: 22px;
-      }
-      .instructions-content {
-        font-size: 14px;
-      }
+      .welcome-container { padding: 20px; }
+      .welcome-title { font-size: 24px; }
+      .instructions-content { font-size: 18px; }
+      .checkbox-item { font-size: 16px; }
+      button.primary-btn { font-size: 18px; }
+      .modal-content { padding: 25px; }
+      .modal-content p, .modal-content ul { font-size: 16px; }
       
-      /* טופ בר במובייל - נשמר */
-      .dashboard-top-bar {
-        flex-direction: column;
-        padding: 5px;
-      }
-      .metrics-container {
-        width: 100%;
-        justify-content: space-between;
-        gap: 5px;
-      }
-      .metric-box {
-        flex: 1;
-        min-width: 0;
-        padding: 5px;
-      }
-      .metric-val {
-        font-size: 15px;
-      }
-      .video-mini-wrapper {
-        width: 100%;
-        height: 60px;
-        opacity: 0.4;
-      }
-      
-      /* תווית גרף במובייל */
-      .stress-label {
-        font-size: 12px;
-        padding: 8px 12px;
-        left: 10px;
-      }
+      .dashboard-top-bar { flex-direction: column; padding: 5px; }
+      .metrics-container { width: 100%; justify-content: space-between; gap: 5px; }
+      .metric-box { flex: 1; min-width: 0; padding: 5px; }
+      .metric-val { font-size: 15px; }
+      .video-mini-wrapper { width: 100%; height: 60px; opacity: 0.4; }
+      .stress-label { font-size: 12px; padding: 8px 12px; left: 10px; }
     }
   </style>
 </head>
@@ -344,18 +350,27 @@
       
       <div class="instructions-content">
         <p>מערכת זו מבוססת על פרוטוקול של <strong>פלצבו גלוי (Open-Label Placebo)</strong>. מחקרים מוכיחים כי ביצוע מודע של פעולה פיזית המשולבת עם משוב ויזואלי ושמיעתי, מאפשר למערכת העצבים האוטונומית להפחית את רמות הלחץ, גם כאשר המדידה אינה ישירה.</p>
-        <p><strong>כדי לקבל תוצאות מקסימליות:</strong></p>
-        <ol>
-          <li>חברו אוזניות אלחוטיות (Bluetooth) לטלפון או למחשב שבו אתם משתמשים כעת.</li>
-          <li>ודאו שהסביבה שקטה ונוחה עבורכם.</li>
-          <li>לחצו על כפתור <strong>"התחל סנכרון נתונים"</strong> המופיע מטה.</li>
-          <li>המוזיקה תחל לפעול ברקע. מקדו את המבט בתנועת הגרף, והתאימו את קצב הנשימה שלכם לתחושת הרגיעה המשתקפת על המסך.</li>
-        </ol>
+        
+        <p style="margin-top: 25px;"><strong>כדי לקבל תוצאות מקסימליות, יש לאשר את השלבים הבאים:</strong></p>
+        
+        <div class="checkbox-list">
+          <label class="checkbox-item">
+            <input type="checkbox" class="step-check">
+            <span>חברו אוזניות אלחוטיות (Bluetooth) לטלפון או למחשב שבו אתם משתמשים כעת.</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="step-check">
+            <span>ודאו שהסביבה שקטה ונוחה עבורכם.</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="step-check">
+            <span>המוזיקה תחל לפעול ברקע. מקדו את המבט בתנועת הגרף, והתאימו את קצב הנשימה שלכם לתחושת הרגיעה המשתקפת על המסך.</span>
+          </label>
+        </div>
       </div>
       
       <div class="welcome-action-area">
         <button id="startBtn" class="primary-btn">התחל סנכרון נתונים</button>
-        <button onclick="openModal('mindfulnessModal')" style="font-size: 14px; padding: 8px 16px; border-color: var(--text-dim); color: var(--text-dim);">עקרונות מיינדפולנס</button>
       </div>
     </div>
   </div>
@@ -389,6 +404,14 @@
     </div>
   </div>
 
+  <div id="validationModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('validationModal')">&times;</span>
+      <h2>שים לב</h2>
+      <p style="text-align: center; margin-bottom: 0;">יש לבצע ולסמן 'וי' על כל סעיפי ההוראות על מנת להתחיל את סנכרון הנתונים.</p>
+    </div>
+  </div>
+
   <div id="mindfulnessModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal('mindfulnessModal')">&times;</span>
@@ -403,11 +426,11 @@
   </div>
 
   <script>
-    // === ניהול חלונות קופצים ומעבר מסכים ===
+    // === ניהול חלונות קופצים ===
     function openModal(id) { document.getElementById(id).style.display = "block"; }
     function closeModal(id) { document.getElementById(id).style.display = "none"; }
     window.onclick = function(e) {
-      if (e.target.className === "modal") e.target.style.display = "none";
+      if (e.target.classList.contains("modal")) e.target.style.display = "none";
     }
 
     // === הגדרת YouTube API ===
@@ -416,22 +439,19 @@
     document.head.appendChild(tag);
     let player;
     function onYouTubeIframeAPIReady() {
-      // הגדרות הנגן המיניאטורי במסך הניטור
       player = new YT.Player('player', {
         videoId: 'BnjdaA6GEJw',
         playerVars: { 
-          'controls': 0,      // ללא פקדים
-          'disablekb': 1,     // ביטול מקלדת
-          'playsinline': 1,   // ניגון בתוך הדף במובייל
-          'rel': 0,           // ללא סרטונים קשורים
-          'modestbranding': 1 // מיתוג מופחת
+          'controls': 0,      
+          'disablekb': 1,     
+          'playsinline': 1,   
+          'rel': 0,           
+          'modestbranding': 1 
         }
       });
     }
 
-    // ==========================================================
-    // === לוגיקת הגרף - שילוב הקוד שאהבת (Center Tracking) ===
-    // ==========================================================
+    // === לוגיקת הגרף ===
     const canvas = document.getElementById('chart');
     const ctx = canvas.getContext('2d');
     let dpr = window.devicePixelRatio || 1;
@@ -440,27 +460,19 @@
     let isRunning = false;
     let animationId;
 
-    // --- הגדרות הליבה מהקוד שאהבת ---
-    let centerX; // יחושב בדינמיות להיות המרכז (width * 0.5)
-    const gridPixelStep = 50; // רשת רחבה יותר
-    const pointSpacing = 3;   // מרווח נקודות מהיר יותר
-    const speed = 0.4;        // תזוזה איטית ורגועה שמאלה
+    let centerX; 
+    const gridPixelStep = 50; 
+    const pointSpacing = 3;   
+    const speed = 0.4;        
 
-    // רמות מתח (סקאלה 0-100 מהקוד שאהבת)
     let stress = 100;
     let cameraStress = 100;
-    
-    // סקיילר חזק יותר (3) להתאמה לסקאלה הנמוכה
     const stressToPixelScale = 3; 
     
-    // ירידה כל 2 שניות
     let lastDropTime = performance.now();
     const dropInterval = 2000; 
     const stressDropStep = 3;
 
-    // --- פונקציות עזר מהקוד שאהבת ---
-    
-    // חישוב מידות הקנבס בעת מעבר מסך או שינוי גודל חלון
     function resizeCanvas() {
       const container = document.getElementById('canvasContainer');
       const rect = container.getBoundingClientRect();
@@ -472,81 +484,57 @@
       width = rect.width;
       height = rect.height;
       
-      // קיבוע הנקודה למרכז האופקי של הגרף
       centerX = width * 0.5; 
     }
     window.addEventListener('resize', resizeCanvas);
 
-    // המרת ערך מתח למיקום Y על המסך (עוקב מצלמה)
     function stressToScreenY(value) {
-      // midY מוגדר כמרכז האנכי (height * 0.5)
       return (height * 0.5) - (value - cameraStress) * stressToPixelScale;
     }
 
-    // ציור רשת עדינה ורגועה מהקוד שאהבת
     function drawGrid() {
-      // צבע רשת סגול עמום מאוד
       ctx.strokeStyle = 'rgba(100, 80, 130, 0.15)'; 
       ctx.lineWidth = 1;
 
-      // קווים אנכיים (סטטיים ברקע)
       for (let x = 0; x <= width; x += gridPixelStep) {
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
       }
 
-      // קווים אופקיים (נעים יחסית למצלמה)
       const stressStep = gridPixelStep / stressToPixelScale;
-      // כיול בסיס הרשת למצלמה הנוכחית
       const baseGrid = Math.floor(cameraStress / stressStep) * stressStep;
       
       for (let k = -25; k <= 25; k++) {
         const worldStress = baseGrid + k * stressStep;
         const y = stressToScreenY(worldStress);
-        // ציור רק אם בתוך גבולות המסך
         if (y < 0 || y > height) continue;
 
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
       }
     }
 
-    // הוספת נקודה וניהול ירידת המתח מהקוד שאהבת
     function addPoint(now) {
       if (isRunning) {
-        // מנגנון ירידה מתוזמן
         if (now - lastDropTime >= dropInterval) {
           stress -= stressDropStep;
           lastDropTime = now;
         } else {
-          // רעש קטן ורגוע (Medical noise)
           stress += (Math.random() - 0.5) * 0.3;
         }
-        
-        // הגבלת מינימום (שלא ירד מתחת לאפס באופן דרסטי)
         if (stress < -50) stress = -50; 
       }
-      
-      // עדכון חלק של המצלמה לעבר המתח הנוכחי (Camera follow)
       cameraStress += (stress - cameraStress) * 0.1;
-
-      // הוספת הנקודה למיקום המרכזי
       points.push({ x: centerX, stress: stress });
     }
 
-    // ציור קו עם גרדיאנט וזוהר סגול מהקוד שאהבת
     function drawLine() {
       if (points.length < 2) return;
 
-      // הגדרת זוהר סגול עדין
       ctx.shadowColor = 'rgba(120, 100, 180, 0.6)';
       ctx.shadowBlur = 15;
 
-      // יצירת גרדיאנט סגול-כחול רגוע לאורך הקו
       const gradient = ctx.createLinearGradient(0, 0, width, 0);
-      // צד שמאל (ישן) - כהה יותר
       gradient.addColorStop(0, 'rgba(80, 60, 120, 0.2)');
-      // מרכז - בינוני
       gradient.addColorStop(0.5, 'rgba(100, 80, 150, 0.6)');
-      // צד ימין (ראש הקו) - בהיר
       gradient.addColorStop(1, 'rgba(180, 150, 220, 0.9)');
 
       ctx.beginPath();
@@ -561,18 +549,15 @@
       ctx.lineWidth = 2.5;
       ctx.stroke();
 
-      // ביטול הזוהר לשאר הציורים
       ctx.shadowBlur = 0;
     }
 
-    // ציור הנקודה המרכזית המובילה עם זוהר רך מהקוד שאהבת
     function drawHeadPoint() {
       if (points.length === 0) return;
       
       const last = points[points.length - 1];
       const y = stressToScreenY(last.stress);
 
-      // זוהר חיצוני רך וגדול
       ctx.shadowColor = 'rgba(150, 120, 200, 0.8)';
       ctx.shadowBlur = 25;
 
@@ -581,7 +566,6 @@
       ctx.fillStyle = 'rgba(180, 150, 220, 0.95)';
       ctx.fill();
 
-      // נקודה פנימית לבנה/בהירה ללא זוהר
       ctx.shadowBlur = 0;
       ctx.beginPath();
       ctx.arc(centerX, y, 3.5, 0, Math.PI * 2);
@@ -589,24 +573,19 @@
       ctx.fill();
     }
 
-    // לולאת האנימציה הראשית מהקוד שאהבת
     function animate(now) {
-      // ניקוי מסך חלק (משאיר שובל קל בגלל הרקע הכהה)
       ctx.clearRect(0, 0, width, height);
 
       drawGrid();
 
-      // תזוזה איטית של כל הנקודות שמאלה
       for (let i = 0; i < points.length; i++) {
         points[i].x -= speed;
       }
       
-      // ניקוי נקודות שיצאו רחוק מהמסך שמאלה
       while (points.length && points[0].x < -200) {
         points.shift();
       }
 
-      // הוספת נקודה חדשה במיקום המרכזי אם נוצר מרווח
       const lastPoint = points[points.length - 1];
       if (!lastPoint || lastPoint.x <= centerX - pointSpacing) {
         addPoint(now);
@@ -618,37 +597,41 @@
       animationId = requestAnimationFrame(animate);
     }
 
-    // ==========================================================
-    // === ניהול נתונים ב-Sidebar (התאמה ללוגיקה החדשה) ===
-    // ==========================================================
     function updateSideData() {
       if(!isRunning) return;
       
-      // BPM: נגזר מהמתח (100 -> ~80 BPM, 0 -> ~60 BPM)
       const estimatedBPM = Math.floor(60 + (stress * 0.2));
       document.getElementById('bpmVal').innerText = (estimatedBPM > 40 ? estimatedBPM : 40);
       
-      // Hz: תדר רגיעה (100 -> ~15Hz Beta, 0 -> ~9Hz Alpha)
       const estimatedHz = (8 + (stress * 0.07)).toFixed(1);
       document.getElementById('hzVal').innerText = (estimatedHz > 1 ? estimatedHz : 1.0);
       
-      // RAW: מציג את ערך ה-stress המקורי מהלוגיקה שאהבת (0-100)
       document.getElementById('rawStress').innerText = Math.floor(stress);
     }
 
-    // ==========================================================
     // === מעבר בין מסכים והפעלת המערכת ===
-    // ==========================================================
     document.getElementById('startBtn').addEventListener('click', function() {
+      
+      // ולידציה של תיבות הסימון
+      const checkboxes = document.querySelectorAll('.step-check');
+      let allChecked = true;
+      checkboxes.forEach(cb => {
+        if (!cb.checked) allChecked = false;
+      });
+
+      if (!allChecked) {
+        openModal('validationModal');
+        return;
+      }
+
       // 1. הסתרת מסך פתיחה והצגת מסך ניטור
       document.getElementById('welcomeScreen').classList.remove('active');
       document.getElementById('gameScreen').classList.add('active');
       
-      // 2. חישוב מידות הקנבס ואתחול centerX
+      // 2. חישוב מידות הקנבס ואתחול
       resizeCanvas();
       
-      // 3. אתחול שובל ראשוני (כדי שלא יתחיל מנקודה ריקה) - מהקוד שאהבת
-      const count = Math.floor((width * 0.6) / pointSpacing); // ממלא עד קצת אחרי המרכז
+      const count = Math.floor((width * 0.6) / pointSpacing); 
       for (let i = 0; i < count; i++) {
         points.push({
           x: centerX - (count - i) * pointSpacing,
@@ -656,22 +639,24 @@
         });
       }
 
-      // 4. הפעלת הלוגיקה והוידאו
+      // 3. הפעלת הלוגיקה והוידאו
       isRunning = true;
       if(player && typeof player.playVideo === 'function') {
         player.playVideo();
       }
       
-      // 5. עדכון ממשק ה-Sidebar
       document.getElementById('statusVal').innerText = "מחובר";
       document.getElementById('statusVal').style.color = "var(--neon-green)";
       
-      // עדכון נתונים כל שניה
       updateSideData(); 
       setInterval(updateSideData, 1000);
       
-      // 6. התחלת לולאת האנימציה
       animate(performance.now());
+
+      // 4. הפעלת חלון המיינדפולנס לאחר 2.5 שניות
+      setTimeout(() => {
+        openModal('mindfulnessModal');
+      }, 2500);
     });
   </script>
 </body>
