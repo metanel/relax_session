@@ -12,6 +12,7 @@
       --neon-cyan: #00e5ff;
       --grid-color: #112211;
       --text-dim: #4b6b5d;
+      --text-light: #e2e8f0;
       --font-main: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --font-mono: 'Courier New', Courier, monospace;
     }
@@ -34,42 +35,79 @@
       width: 100%;
       height: 100%;
       flex-direction: column;
+      box-sizing: border-box;
     }
     .screen.active {
       display: flex;
     }
 
-    /* עיצוב מסך פתיחה */
+    /* === עיצוב מסך פתיחה (Welcome) === */
     #welcomeScreen {
       justify-content: center;
       align-items: center;
       background: radial-gradient(circle at center, #0a0e17 0%, #020408 100%);
-      text-align: center;
       padding: 20px;
-      box-sizing: border-box;
     }
+    
     .welcome-container {
       border: 1px solid var(--neon-cyan);
-      background: rgba(10, 14, 23, 0.8);
-      padding: 40px 20px;
-      max-width: 500px;
+      background: rgba(10, 14, 23, 0.9);
+      padding: 30px;
+      max-width: 650px;
       width: 100%;
-      box-shadow: 0 0 30px rgba(0, 229, 255, 0.1);
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+      text-align: right; /* יישור טקסט לימין עבור RTL */
     }
+    
     .welcome-title {
       font-family: var(--font-mono);
-      font-size: 24px;
+      font-size: 28px;
       color: var(--neon-cyan);
-      margin-bottom: 30px;
-      letter-spacing: 2px;
-    }
-    .welcome-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+      margin-bottom: 25px;
+      letter-spacing: 1px;
+      text-align: center;
+      border-bottom: 1px solid var(--text-dim);
+      padding-bottom: 15px;
     }
 
-    /* עיצוב מסך ניטור (Game Screen) */
+    .instructions-content {
+      color: var(--text-light);
+      line-height: 1.6;
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+    
+    .instructions-content p {
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+    
+    .instructions-content strong {
+      color: var(--neon-green);
+    }
+    
+    .instructions-content ol {
+      padding-right: 20px;
+      margin-bottom: 0;
+    }
+    
+    .instructions-content li {
+      margin-bottom: 12px;
+    }
+
+    .welcome-action-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      border-top: 1px solid var(--text-dim);
+      padding-top: 20px;
+    }
+
+    /* === עיצוב מסך ניטור (Game Screen) === */
+    /* ה-Top Bar נשאר בדיוק כפי שאהבת */
     .dashboard-top-bar {
       background: var(--panel-bg);
       border-bottom: 1px solid var(--text-dim);
@@ -80,6 +118,7 @@
       align-items: center;
       justify-content: space-between;
     }
+    
     .metrics-container {
       display: flex;
       flex-wrap: wrap;
@@ -87,22 +126,25 @@
       flex-grow: 1;
       justify-content: space-around;
     }
+    
     .metric-box {
       background: #050a07;
       border: 1px solid #1a2f24;
       padding: 5px 10px;
       text-align: center;
-      min-width: 70px;
+      min-width: 75px;
       font-family: var(--font-mono);
     }
+    
     .metric-label {
       font-size: 10px;
       color: var(--text-dim);
       font-family: var(--font-main);
       margin-bottom: 2px;
     }
+    
     .metric-val {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
     }
     
@@ -112,7 +154,7 @@
       border: 1px solid var(--text-dim);
       background: #000;
       position: relative;
-      opacity: 0.6;
+      opacity: 0.7;
     }
     .video-mini-wrapper iframe {
       width: 100%;
@@ -122,36 +164,50 @@
       left: 0;
     }
 
+    /* אזור הגרף המשולב */
     .canvas-container {
       flex-grow: 1;
       position: relative;
       width: 100%;
       overflow: hidden;
+      /* הרקע הכהה והעמוק מהקוד שאהבת */
+      background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a1a 100%);
     }
+    
     canvas {
       display: block;
       width: 100%;
       height: 100%;
     }
-    .crosshair {
+    
+    /* תווית המתח מהקוד שאהבת, מותאמת ל-RTL */
+    .stress-label {
       position: absolute;
+      /* יישור לשמאל ב-RTL כדי לא להסתיר את תחילת הגרף הזורם ימינה */
+      left: 25px; 
       top: 50%;
-      left: 10px;
-      color: var(--neon-cyan);
-      font-size: 12px;
       transform: translateY(-50%);
+      background: rgba(26, 26, 46, 0.6);
+      backdrop-filter: blur(15px);
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      border: 1px solid rgba(184, 169, 212, 0.2);
       pointer-events: none;
-      font-family: var(--font-mono);
-      background: rgba(2, 4, 8, 0.5);
-      padding: 2px 5px;
+      /* צבע טקסט סגול בהיר מהקוד שאהבת */
+      color: #b8a9d4; 
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      font-family: var(--font-main);
     }
 
-    /* כפתורים כלליים */
+    /* === כפתורים כלליים ומודאל === */
     button {
       background: transparent;
       border: 1px solid var(--neon-cyan);
       color: var(--neon-cyan);
-      padding: 12px 20px;
+      padding: 12px 24px;
       font-family: var(--font-main);
       font-size: 16px;
       font-weight: bold;
@@ -166,13 +222,19 @@
       color: var(--neon-green);
       background: rgba(0, 255, 102, 0.05);
       font-size: 18px;
-      margin-top: 15px;
     }
     button.primary-btn:hover {
       background: rgba(0, 255, 102, 0.2);
+      box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+    }
+    button:disabled {
+      border-color: var(--text-dim);
+      color: var(--text-dim);
+      cursor: not-allowed;
+      background: transparent;
     }
 
-    /* חלונות קופצים */
+    /* חלון מיינדפולנס */
     .modal {
       display: none;
       position: fixed;
@@ -193,10 +255,11 @@
       max-width: 500px;
       max-height: 80vh;
       overflow-y: auto;
-      color: #e2e8f0;
+      color: var(--text-light);
       line-height: 1.5;
       position: relative;
       box-sizing: border-box;
+      text-align: right;
     }
     .modal-content h2 {
       color: var(--neon-cyan);
@@ -204,8 +267,9 @@
       border-bottom: 1px solid var(--text-dim);
       padding-bottom: 10px;
       font-size: 20px;
+      text-align: center;
     }
-    .modal-content ul, .modal-content ol {
+    .modal-content ul {
       padding-right: 20px;
       font-size: 15px;
     }
@@ -222,9 +286,24 @@
       cursor: pointer;
       line-height: 1;
     }
+    .close-btn:hover {
+      color: var(--neon-cyan);
+    }
 
-    /* התאמות מיוחדות למסכים קטנים (מובייל) */
+    /* === התאמות למובייל === */
     @media (max-width: 600px) {
+      /* מסך פתיחה במובייל */
+      .welcome-container {
+        padding: 20px;
+      }
+      .welcome-title {
+        font-size: 22px;
+      }
+      .instructions-content {
+        font-size: 14px;
+      }
+      
+      /* טופ בר במובייל - נשמר */
       .dashboard-top-bar {
         flex-direction: column;
         padding: 5px;
@@ -240,12 +319,19 @@
         padding: 5px;
       }
       .metric-val {
-        font-size: 14px;
+        font-size: 15px;
       }
       .video-mini-wrapper {
         width: 100%;
         height: 60px;
-        opacity: 0.3; /* פחות בולט במובייל */
+        opacity: 0.4;
+      }
+      
+      /* תווית גרף במובייל */
+      .stress-label {
+        font-size: 12px;
+        padding: 8px 12px;
+        left: 10px;
       }
     }
   </style>
@@ -254,11 +340,22 @@
 
   <div id="welcomeScreen" class="screen active">
     <div class="welcome-container">
-      <div class="welcome-title">מערכת ניטור קלינית // V4.2</div>
-      <div class="welcome-buttons">
-        <button onclick="openModal('instructionsModal')">הוראות שימוש</button>
-        <button onclick="openModal('mindfulnessModal')">עקרונות מיינדפולנס</button>
+      <div class="welcome-title">מערכת ניטור קלינית</div>
+      
+      <div class="instructions-content">
+        <p>מערכת זו מבוססת על פרוטוקול של <strong>פלצבו גלוי (Open-Label Placebo)</strong>. מחקרים מוכיחים כי ביצוע מודע של פעולה פיזית המשולבת עם משוב ויזואלי ושמיעתי, מאפשר למערכת העצבים האוטונומית להפחית את רמות הלחץ, גם כאשר המדידה אינה ישירה.</p>
+        <p><strong>כדי לקבל תוצאות מקסימליות:</strong></p>
+        <ol>
+          <li>חברו אוזניות אלחוטיות (Bluetooth) לטלפון או למחשב שבו אתם משתמשים כעת.</li>
+          <li>ודאו שהסביבה שקטה ונוחה עבורכם.</li>
+          <li>לחצו על כפתור <strong>"התחל סנכרון נתונים"</strong> המופיע מטה.</li>
+          <li>המוזיקה תחל לפעול ברקע. מקדו את המבט בתנועת הגרף, והתאימו את קצב הנשימה שלכם לתחושת הרגיעה המשתקפת על המסך.</li>
+        </ol>
+      </div>
+      
+      <div class="welcome-action-area">
         <button id="startBtn" class="primary-btn">התחל סנכרון נתונים</button>
+        <button onclick="openModal('mindfulnessModal')" style="font-size: 14px; padding: 8px 16px; border-color: var(--text-dim); color: var(--text-dim);">עקרונות מיינדפולנס</button>
       </div>
     </div>
   </div>
@@ -267,19 +364,19 @@
     <div class="dashboard-top-bar">
       <div class="metrics-container">
         <div class="metric-box">
-          <div class="metric-label">סטטוס</div>
+          <div class="metric-label">סטטוס אות</div>
           <div class="metric-val" id="statusVal" style="color: var(--text-dim);">ממתין</div>
         </div>
         <div class="metric-box">
-          <div class="metric-label">קצב לב</div>
+          <div class="metric-label">קצב לב (HR)</div>
           <div class="metric-val" id="bpmVal">--</div>
         </div>
         <div class="metric-box">
-          <div class="metric-label">תדר (Hz)</div>
+          <div class="metric-label">תדר מוח (Hz)</div>
           <div class="metric-val" id="hzVal">--</div>
         </div>
         <div class="metric-box">
-          <div class="metric-label">מדד מתח</div>
+          <div class="metric-label">מדד מתח (RAW)</div>
           <div class="metric-val" id="rawStress">--</div>
         </div>
       </div>
@@ -288,21 +385,7 @@
     
     <div class="canvas-container" id="canvasContainer">
       <canvas id="chart"></canvas>
-      <div class="crosshair">מצב נוכחי ►</div>
-    </div>
-  </div>
-
-  <div id="instructionsModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('instructionsModal')">&times;</span>
-      <h2>הוראות שימוש במערכת</h2>
-      <p>מערכת זו מבוססת על פרוטוקול של <strong>פלצבו גלוי (Open-Label Placebo)</strong>. מחקרים מוכיחים כי ביצוע מודע של פעולה פיזית המשולבת עם משוב ויזואלי ושמיעתי, מאפשר למערכת העצבים האוטונומית להפחית את רמות הלחץ, גם כאשר המדידה אינה ישירה.</p>
-      <ol>
-        <li>חברו אוזניות אלחוטיות לטלפון או למחשב.</li>
-        <li>ודאו שהסביבה שקטה ונוחה.</li>
-        <li>לחצו על כפתור <strong>"התחל סנכרון נתונים"</strong> במסך הראשי.</li>
-        <li>המוזיקה תחל לפעול ברקע. מקדו את המבט בתנועת הגרף היורד, והתאימו את קצב הנשימה שלכם לתחושת הירידה במתח המשתקפת על המסך.</li>
-      </ol>
+      <div class="stress-label" id="stressLabel">רמת מתח נפשי</div>
     </div>
   </div>
 
@@ -312,34 +395,43 @@
       <h2>עקרונות מיינדפולנס</h2>
       <p>לייעול תהליך ההרפיה במהלך השימוש, מומלץ ליישם את העקרונות הבאים:</p>
       <ul>
-        <li><strong>מיקוד בנשימה (Anchoring):</strong> שימו לב לאוויר הנכנס דרך האף ויוצא דרך הפה. אם המחשבות נודדות, החזירו את תשומת הלב לגרף שעל המסך.</li>
-        <li><strong>קבלה ללא שיפוטיות:</strong> מחשבות מסיחות דעת יופיעו באופן טבעי. הכירו בקיומן ותנו להן לחלוף כפי שבאו.</li>
-        <li><strong>מודעות גופנית (Body Scan):</strong> שחררו מתח שרירי מצטבר באזור הלסת, הכתפיים והצוואר כדי לשדר למוח אותות של ביטחון.</li>
+        <li><strong>מיקוד בנשימה (Anchoring):</strong> שימו לב לאוויר הנכנס דרך האף ויוצא דרך הפה. אם המחשבות נודדות, החזירו בעדינות את תשומת הלב לגרף שעל המסך.</li>
+        <li><strong>קבלה ללא שיפוטיות:</strong> מחשבות מסיחות דעת יופיעו באופן טבעי. אל תילחמו בהן. הכירו בקיומן ותנו להן לחלוף כפי שבאו.</li>
+        <li><strong>מודעות גופנית (Body Scan):</strong> שחררו מתח שרירי מצטבר, במיוחד באזור הלסת, הכתפיים והצוואר כדי לשדר למוח אותות של ביטחון.</li>
       </ul>
     </div>
   </div>
 
   <script>
-    // ניהול חלונות קופצים
+    // === ניהול חלונות קופצים ומעבר מסכים ===
     function openModal(id) { document.getElementById(id).style.display = "block"; }
     function closeModal(id) { document.getElementById(id).style.display = "none"; }
     window.onclick = function(e) {
       if (e.target.className === "modal") e.target.style.display = "none";
     }
 
-    // הגדרת YouTube API
+    // === הגדרת YouTube API ===
     var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     document.head.appendChild(tag);
     let player;
     function onYouTubeIframeAPIReady() {
+      // הגדרות הנגן המיניאטורי במסך הניטור
       player = new YT.Player('player', {
         videoId: 'BnjdaA6GEJw',
-        playerVars: { 'controls': 0, 'disablekb': 1, 'playsinline': 1 }
+        playerVars: { 
+          'controls': 0,      // ללא פקדים
+          'disablekb': 1,     // ביטול מקלדת
+          'playsinline': 1,   // ניגון בתוך הדף במובייל
+          'rel': 0,           // ללא סרטונים קשורים
+          'modestbranding': 1 // מיתוג מופחת
+        }
       });
     }
 
-    // משתני הגרף
+    // ==========================================================
+    // === לוגיקת הגרף - שילוב הקוד שאהבת (Center Tracking) ===
+    // ==========================================================
     const canvas = document.getElementById('chart');
     const ctx = canvas.getContext('2d');
     let dpr = window.devicePixelRatio || 1;
@@ -348,76 +440,115 @@
     let isRunning = false;
     let animationId;
 
-    let centerX; 
-    const gridPixelStep = 40;
-    const pointSpacing = 2;
-    const speed = -1.5; 
+    // --- הגדרות הליבה מהקוד שאהבת ---
+    let centerX; // יחושב בדינמיות להיות המרכז (width * 0.5)
+    const gridPixelStep = 50; // רשת רחבה יותר
+    const pointSpacing = 3;   // מרווח נקודות מהיר יותר
+    const speed = 0.4;        // תזוזה איטית ורגועה שמאלה
 
-    let stress = 500;
-    let cameraStress = 500;
-    const stressToPixelScale = 2;
+    // רמות מתח (סקאלה 0-100 מהקוד שאהבת)
+    let stress = 100;
+    let cameraStress = 100;
+    
+    // סקיילר חזק יותר (3) להתאמה לסקאלה הנמוכה
+    const stressToPixelScale = 3; 
+    
+    // ירידה כל 2 שניות
     let lastDropTime = performance.now();
-    const dropInterval = 1000; 
-    const stressDropStep = 1.5;
+    const dropInterval = 2000; 
+    const stressDropStep = 3;
 
-    // פונקציית שינוי מידות (מחושבת מחדש בעת מעבר מסך)
+    // --- פונקציות עזר מהקוד שאהבת ---
+    
+    // חישוב מידות הקנבס בעת מעבר מסך או שינוי גודל חלון
     function resizeCanvas() {
       const container = document.getElementById('canvasContainer');
       const rect = container.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) return; // מניעת שגיאה כשהמסך מוסתר
+      if (rect.width === 0 || rect.height === 0) return;
       
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
       ctx.scale(dpr, dpr);
       width = rect.width;
       height = rect.height;
-      centerX = width * 0.15; // מיקום הקצה בצד שמאל
+      
+      // קיבוע הנקודה למרכז האופקי של הגרף
+      centerX = width * 0.5; 
     }
     window.addEventListener('resize', resizeCanvas);
 
-    function updateSideData() {
-      if(!isRunning) return;
-      document.getElementById('bpmVal').innerText = Math.floor(60 + (stress/20));
-      document.getElementById('hzVal').innerText = (12 + (stress/100)).toFixed(2);
-      document.getElementById('rawStress').innerText = Math.floor(stress);
-    }
-
+    // המרת ערך מתח למיקום Y על המסך (עוקב מצלמה)
     function stressToScreenY(value) {
+      // midY מוגדר כמרכז האנכי (height * 0.5)
       return (height * 0.5) - (value - cameraStress) * stressToPixelScale;
     }
 
+    // ציור רשת עדינה ורגועה מהקוד שאהבת
     function drawGrid() {
-      ctx.strokeStyle = '#112211';
+      // צבע רשת סגול עמום מאוד
+      ctx.strokeStyle = 'rgba(100, 80, 130, 0.15)'; 
       ctx.lineWidth = 1;
 
-      let offset = (performance.now() * (Math.abs(speed) / 16)) % gridPixelStep;
-      for (let x = offset; x <= width; x += gridPixelStep) {
+      // קווים אנכיים (סטטיים ברקע)
+      for (let x = 0; x <= width; x += gridPixelStep) {
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
       }
 
+      // קווים אופקיים (נעים יחסית למצלמה)
       const stressStep = gridPixelStep / stressToPixelScale;
+      // כיול בסיס הרשת למצלמה הנוכחית
       const baseGrid = Math.floor(cameraStress / stressStep) * stressStep;
-      for (let k = -20; k <= 20; k++) {
-        const y = stressToScreenY(baseGrid + k * stressStep);
+      
+      for (let k = -25; k <= 25; k++) {
+        const worldStress = baseGrid + k * stressStep;
+        const y = stressToScreenY(worldStress);
+        // ציור רק אם בתוך גבולות המסך
         if (y < 0 || y > height) continue;
+
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
       }
     }
 
+    // הוספת נקודה וניהול ירידת המתח מהקוד שאהבת
     function addPoint(now) {
       if (isRunning) {
+        // מנגנון ירידה מתוזמן
         if (now - lastDropTime >= dropInterval) {
           stress -= stressDropStep;
           lastDropTime = now;
         } else {
-          stress += (Math.random() - 0.5) * 1.5;
+          // רעש קטן ורגוע (Medical noise)
+          stress += (Math.random() - 0.5) * 0.3;
         }
+        
+        // הגבלת מינימום (שלא ירד מתחת לאפס באופן דרסטי)
+        if (stress < -50) stress = -50; 
       }
+      
+      // עדכון חלק של המצלמה לעבר המתח הנוכחי (Camera follow)
       cameraStress += (stress - cameraStress) * 0.1;
+
+      // הוספת הנקודה למיקום המרכזי
       points.push({ x: centerX, stress: stress });
     }
 
+    // ציור קו עם גרדיאנט וזוהר סגול מהקוד שאהבת
     function drawLine() {
+      if (points.length < 2) return;
+
+      // הגדרת זוהר סגול עדין
+      ctx.shadowColor = 'rgba(120, 100, 180, 0.6)';
+      ctx.shadowBlur = 15;
+
+      // יצירת גרדיאנט סגול-כחול רגוע לאורך הקו
+      const gradient = ctx.createLinearGradient(0, 0, width, 0);
+      // צד שמאל (ישן) - כהה יותר
+      gradient.addColorStop(0, 'rgba(80, 60, 120, 0.2)');
+      // מרכז - בינוני
+      gradient.addColorStop(0.5, 'rgba(100, 80, 150, 0.6)');
+      // צד ימין (ראש הקו) - בהיר
+      gradient.addColorStop(1, 'rgba(180, 150, 220, 0.9)');
+
       ctx.beginPath();
       for (let i = 0; i < points.length; i++) {
         const p = points[i];
@@ -425,62 +556,121 @@
         if (i === 0) ctx.moveTo(p.x, y);
         else ctx.lineTo(p.x, y);
       }
-      ctx.strokeStyle = '#00ff66';
-      ctx.lineWidth = 2;
+
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = 2.5;
       ctx.stroke();
 
-      if(points.length > 0) {
-        const lastY = stressToScreenY(points[points.length - 1].stress);
-        ctx.beginPath();
-        ctx.arc(centerX, lastY, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#00ff66';
-        ctx.fill();
-      }
+      // ביטול הזוהר לשאר הציורים
+      ctx.shadowBlur = 0;
     }
 
-    let lastTime = performance.now();
+    // ציור הנקודה המרכזית המובילה עם זוהר רך מהקוד שאהבת
+    function drawHeadPoint() {
+      if (points.length === 0) return;
+      
+      const last = points[points.length - 1];
+      const y = stressToScreenY(last.stress);
+
+      // זוהר חיצוני רך וגדול
+      ctx.shadowColor = 'rgba(150, 120, 200, 0.8)';
+      ctx.shadowBlur = 25;
+
+      ctx.beginPath();
+      ctx.arc(centerX, y, 7, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(180, 150, 220, 0.95)';
+      ctx.fill();
+
+      // נקודה פנימית לבנה/בהירה ללא זוהר
+      ctx.shadowBlur = 0;
+      ctx.beginPath();
+      ctx.arc(centerX, y, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(230, 210, 255, 1)';
+      ctx.fill();
+    }
+
+    // לולאת האנימציה הראשית מהקוד שאהבת
     function animate(now) {
-      lastTime = now;
+      // ניקוי מסך חלק (משאיר שובל קל בגלל הרקע הכהה)
       ctx.clearRect(0, 0, width, height);
 
       drawGrid();
 
-      for (let i = 0; i < points.length; i++) points[i].x -= speed;
-      while (points.length && points[0].x > width + 50) points.shift();
+      // תזוזה איטית של כל הנקודות שמאלה
+      for (let i = 0; i < points.length; i++) {
+        points[i].x -= speed;
+      }
+      
+      // ניקוי נקודות שיצאו רחוק מהמסך שמאלה
+      while (points.length && points[0].x < -200) {
+        points.shift();
+      }
 
+      // הוספת נקודה חדשה במיקום המרכזי אם נוצר מרווח
       const lastPoint = points[points.length - 1];
-      if (!lastPoint || lastPoint.x >= centerX + pointSpacing) {
+      if (!lastPoint || lastPoint.x <= centerX - pointSpacing) {
         addPoint(now);
       }
 
       drawLine();
+      drawHeadPoint();
+
       animationId = requestAnimationFrame(animate);
     }
 
-    // מעבר בין מסכים והפעלת המערכת
+    // ==========================================================
+    // === ניהול נתונים ב-Sidebar (התאמה ללוגיקה החדשה) ===
+    // ==========================================================
+    function updateSideData() {
+      if(!isRunning) return;
+      
+      // BPM: נגזר מהמתח (100 -> ~80 BPM, 0 -> ~60 BPM)
+      const estimatedBPM = Math.floor(60 + (stress * 0.2));
+      document.getElementById('bpmVal').innerText = (estimatedBPM > 40 ? estimatedBPM : 40);
+      
+      // Hz: תדר רגיעה (100 -> ~15Hz Beta, 0 -> ~9Hz Alpha)
+      const estimatedHz = (8 + (stress * 0.07)).toFixed(1);
+      document.getElementById('hzVal').innerText = (estimatedHz > 1 ? estimatedHz : 1.0);
+      
+      // RAW: מציג את ערך ה-stress המקורי מהלוגיקה שאהבת (0-100)
+      document.getElementById('rawStress').innerText = Math.floor(stress);
+    }
+
+    // ==========================================================
+    // === מעבר בין מסכים והפעלת המערכת ===
+    // ==========================================================
     document.getElementById('startBtn').addEventListener('click', function() {
-      // 1. מעבר תצוגה
+      // 1. הסתרת מסך פתיחה והצגת מסך ניטור
       document.getElementById('welcomeScreen').classList.remove('active');
       document.getElementById('gameScreen').classList.add('active');
       
-      // 2. חישוב מידות הקנבס רק כשהמסך פעיל וגלוי
+      // 2. חישוב מידות הקנבס ואתחול centerX
       resizeCanvas();
       
-      // 3. יצירת נקודות ראשוניות לאתחול
-      for (let i = 0; i < Math.floor(width / pointSpacing); i++) {
-        points.push({ x: centerX + (Math.floor(width / pointSpacing) - i) * pointSpacing, stress: stress });
+      // 3. אתחול שובל ראשוני (כדי שלא יתחיל מנקודה ריקה) - מהקוד שאהבת
+      const count = Math.floor((width * 0.6) / pointSpacing); // ממלא עד קצת אחרי המרכז
+      for (let i = 0; i < count; i++) {
+        points.push({
+          x: centerX - (count - i) * pointSpacing,
+          stress: stress
+        });
       }
 
-      // 4. הפעלת לוגיקה
+      // 4. הפעלת הלוגיקה והוידאו
       isRunning = true;
       if(player && typeof player.playVideo === 'function') {
         player.playVideo();
       }
       
-      document.getElementById('statusVal').innerText = "ננעל";
+      // 5. עדכון ממשק ה-Sidebar
+      document.getElementById('statusVal').innerText = "מחובר";
       document.getElementById('statusVal').style.color = "var(--neon-green)";
+      
+      // עדכון נתונים כל שניה
+      updateSideData(); 
       setInterval(updateSideData, 1000);
       
+      // 6. התחלת לולאת האנימציה
       animate(performance.now());
     });
   </script>
